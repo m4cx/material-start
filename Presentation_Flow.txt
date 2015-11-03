@@ -1,0 +1,34 @@
+Start#: ead0ca3892a2b3015fd6efc2db2e088ba299ea0b
+
+- 	Installing gulp
+-	Installing TypeScript-Compiler (gulp-typescript)
+- 	Installing tsd / typings
+#Commit: 31266a945ea481becc9849ef53289638651521e5
+
+- 	Rewrite module definition to TypeScript
+- 	Initial Build-Chain through gulp
+#Commit: e375c9b49300f2bf6b1b1506318803b38f2612bf
+
+- 	Rewrite UserController to TypeScript
+- 	Include UserController into Build-Chain
+#Commit: 370461a982cbb12544c6f0102381f6582d3354d4
+
+- 	Rewrite UserService to TypeScript
+#Commit: 1568a938c71bdaf8af2a1528af8b3f224946d34c
+
+- 	Introduce Typings on UserService & User
+-	Use new Typings in UserController
+- 	Assign Typings from Imported Libraries
+#Commit: 86390281813690dddbb7081c0b0372fbb3866820
+
+- 	Rewrite Directives to TypeScript
+- 	Include Directives to Build-Chain
+#Commit: f74cb130a6b6ff56c78339ad2437837e9ffc4214
+
+-	Using ngModule from TypeScript Module Export
+- 	Define DI-Names in Injectable class
+-	Use className in Controller for DI
+#Commit: f25519df5f8e9d7e065bf01e18b04fe8c942cf77
+
+
+
