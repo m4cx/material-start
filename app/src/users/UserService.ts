@@ -2,6 +2,16 @@
 
 module Users {
   
+  export interface IUserService {
+    loadAllUsers(): ng.IPromise<IUser[]>;
+  }
+  
+  export interface IUser {
+    name: string;
+    avatar: string;
+    content: string;
+  }
+  
   /**
    * Users DataService
    * Uses embedded, hard-coded data model; acts asynchronously to simulate
@@ -10,13 +20,13 @@ module Users {
    * @returns {{loadAll: Function}}
    * @constructor
    */
-  class UserService {
+  class UserService implements IUserService {
 
     static $inject = ['$q']
 
-    public users;
+    private users : Array<IUser>;
 
-    constructor(private $q) {
+    constructor(private $q: angular.IQService) {
 
       this.users = [
         {

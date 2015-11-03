@@ -1,4 +1,5 @@
 /// <reference path="../../../typings/tsd.d.ts" />
+/// <reference path="UserService.ts" />
 
 module Users {
   
@@ -11,12 +12,17 @@ module Users {
    */
   class UserController {
 
-    public selected = null;
-    public users = [];
+    public selected: IUser;
+    public users: IUser[];
 
-    constructor(private userService, private $mdSidenav, private $mdBottomSheet, private $log, private $q) {
+    constructor(
+      private userService: IUserService,
+      private $mdSidenav: angular.material.ISidenavService,
+      private $mdBottomSheet: angular.material.IBottomSheetService,
+      private $log: angular.ILogService,
+      private $q: angular.IQService) {
+      
       // Load all registered users
-
       userService
         .loadAllUsers()
         .then((users) => {
@@ -35,11 +41,13 @@ module Users {
      * hide or Show the 'left' sideNav area
      */
     public toggleUsersList() {
-      var pending = this.$mdBottomSheet.hide() || this.$q.when(true);
+      if (!this.$mdBottomSheet.hide()) {
 
-      pending.then(function() {
-        this.$mdSidenav('left').toggle();
-      });
+        var pending = this.$q.when(true);
+        pending.then(function() {
+          this.$mdSidenav('left').toggle();
+        });
+      }
     }
 
     /**
@@ -57,32 +65,42 @@ module Users {
     public showContactOptions($event) {
       var user = this.selected;
 
-      return this.$mdBottomSheet.show({
-        parent: angular.element(document.getElementById('content')),
-        templateUrl: './src/users/view/contactSheet.html',
-        controller: ['$mdBottomSheet', ContactPanelController],
-        controllerAs: "cp",
-        bindToController: true,
-        targetEvent: $event
-      }).then(function(clickedItem) {
-        clickedItem && this.$log.debug(clickedItem.name + ' clicked!');
-      });
-
       /**
        * Bottom Sheet controller for the Avatar Actions
        */
-      function ContactPanelController($mdBottomSheet) {
-        this.user = user;
-        this.actions = [
-          { name: 'Phone', icon: 'phone', icon_url: 'assets/svg/phone.svg' },
-          { name: 'Twitter', icon: 'twitter', icon_url: 'assets/svg/twitter.svg' },
-          { name: 'Google+', icon: 'google_plus', icon_url: 'assets/svg/google_plus.svg' },
-          { name: 'Hangout', icon: 'hangouts', icon_url: 'assets/svg/hangouts.svg' }
-        ];
-        this.submitContact = function(action) {
-          $mdBottomSheet.hide(action);
+      class ContactPanelController {
+        static $inject = ['$mdBottomSheet'];
+
+        public user: IUser;
+        public actions: any[];
+
+        constructor(private $mdBottomSheet) {
+          this.user = user;
+          this.actions = [
+            { name: 'Phone', icon: 'phone', icon_url: 'assets/svg/phone.svg' },
+            { name: 'Twitter', icon: 'twitter', icon_url: 'assets/svg/twitter.svg' },
+            { name: 'Google+', icon: 'google_plus', icon_url: 'assets/svg/google_plus.svg' },
+            { name: 'Hangout', icon: 'hangouts', icon_url: 'assets/svg/hangouts.svg' }
+          ];
+        }
+
+        public submitContact(action) {
+          this.$mdBottomSheet.hide(action);
         };
       }
+
+      return this.$mdBottomSheet.show({
+        parent: <JQuery>angular.element(document.getElementById('content')),
+        templateUrl: './src/users/view/contactSheet.html',
+        controller: ContactPanelController,
+        controllerAs: "cp",
+        //bindToController: true,
+        targetEvent: $event
+      }).then((clickedItem) => {
+        clickedItem && this.$log.debug(clickedItem.name + ' clicked!');
+      });
+
+
     }
 
   }
