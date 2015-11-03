@@ -9,3 +9,5 @@ app/jspm_packages
 app/src/users/UserController.js
 app/src/users/Users.js
 app/src/users/UserService.js
+app/src/users/components/user-avatar/UserAvatar.js
+app/src/users/components/user-details/UserDetails.js
