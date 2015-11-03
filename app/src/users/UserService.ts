@@ -1,11 +1,12 @@
 /// <reference path="../../../typings/tsd.d.ts" />
+/// <reference path="Users.ts" />
 
 module Users {
-  
+
   export interface IUserService {
     loadAllUsers(): ng.IPromise<IUser[]>;
   }
-  
+
   export interface IUser {
     name: string;
     avatar: string;
@@ -20,11 +21,11 @@ module Users {
    * @returns {{loadAll: Function}}
    * @constructor
    */
-  class UserService implements IUserService {
+  export class UserService implements IUserService {
+    static className : string = "Users.UserService";
+    static $inject = ['$q'];
 
-    static $inject = ['$q']
-
-    private users : Array<IUser>;
+    private users: Array<IUser>;
 
     constructor(private $q: angular.IQService) {
 
@@ -69,6 +70,5 @@ module Users {
     }
   }
 
-  angular.module('users')
-    .service('userService', UserService);
+  ngModule.service(UserService.className, UserService);
 }

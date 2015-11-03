@@ -1,9 +1,12 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
+/// <reference path="../../Users.ts" />
 
 module Users {
   'use strict';
 
   class UserAvatar implements angular.IDirective {
+    static selector: string = "userAvatar";
+    
     constructor() {
       return {
         restrict: "E",
@@ -15,6 +18,5 @@ module Users {
     }
   }
 
-  angular.module('users')
-    .directive("userAvatar", [UserAvatar]);
+  ngModule.directive(UserAvatar.selector, [UserAvatar]);
 }

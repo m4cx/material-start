@@ -1,5 +1,7 @@
 /// <reference path="../../../typings/tsd.d.ts" />
 /// <reference path="UserService.ts" />
+/// <reference path="Users.ts" />
+
 
 module Users {
   
@@ -11,6 +13,8 @@ module Users {
    * @constructor
    */
   class UserController {
+
+    static className: string = "UserController";
 
     public selected: IUser;
     public users: IUser[];
@@ -90,7 +94,7 @@ module Users {
       }
 
       return this.$mdBottomSheet.show({
-        parent: <JQuery>angular.element(document.getElementById('content')),
+        parent: angular.element(document.getElementById('content')),
         templateUrl: './src/users/view/contactSheet.html',
         controller: ContactPanelController,
         controllerAs: "cp",
@@ -105,10 +109,8 @@ module Users {
 
   }
 
-  angular
-    .module('users')
-    .controller('UserController', [
-      'userService', '$mdSidenav', '$mdBottomSheet', '$log', '$q',
-      UserController
-    ]);
+  ngModule.controller(UserController.className, [
+    UserService.className, '$mdSidenav', '$mdBottomSheet', '$log', '$q',
+    UserController
+  ]);
 }
